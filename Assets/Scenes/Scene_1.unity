@@ -962,6 +962,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 4621477507342051309}
+  playerBox: {fileID: 4621477507342051308}
 --- !u!61 &4621477507342051308
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -975,7 +976,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.009490311, y: 0.9693165}
+  m_Offset: {x: 0, y: 1}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.42, y: 0.1}
@@ -986,7 +987,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.38033926, y: 2.0803914}
+  m_Size: {x: 0.6, y: 2}
   m_EdgeRadius: 0
 --- !u!95 &4621477507342051309 stripped
 Animator:
