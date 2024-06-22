@@ -8,17 +8,22 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // private 
-
+    private Rigidbody2D rb2d;
 
     // public
     public float speed;
+    public float jumpPower;
     public Animator animator;
     public BoxCollider2D playerBox;
+
+    public Transform groundCheck;
+    public LayerMask groundLayer;
 
     // Start is called before the first frame update
     void Start()
     {
-       playerBox = GetComponent<BoxCollider2D>();
+        playerBox = GetComponent<BoxCollider2D>();
+        rb2d = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -32,10 +37,15 @@ public class PlayerController : MonoBehaviour
         Movement(MoveDirection);
 
         // jumping
-        float JumpDirection = Input.GetAxisRaw("Jump");
-        Jump(JumpDirection);
+        float jumpDirection = Input.GetAxisRaw("Jump");
+        if (Input.GetButtonDown("Jump") && IsGrounded())
+        {
+            animator.SetBool("IsJumping", true);
+            rb2d.velocity = new Vector2(rb2d.velocity.x, jumpPower);
+        }
 
 
+        // crouching
         Crouching();
     }
 
@@ -65,26 +75,20 @@ public class PlayerController : MonoBehaviour
         transform.position = position;
     }
 
-    void Jump(float JumpDirection)
+    private bool IsGrounded()
     {
-        if (JumpDirection > 0)
-        {
-            animator.SetBool("IsJumping", true);
-        }
-        else
-        {
-            animator.SetBool("IsJumping", false);
-        }
+        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
 
     void Crouching()
     {
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (Input.GetKey(KeyCode.DownArrow))
         {
             animator.SetBool("IsCrouching", true);
             playerBox.size = new Vector2(0.8f, 1.4f);
             playerBox.offset = new Vector2(0, 0.6f);
-        } else
+        } 
+        else
         {
             playerBox.size = new Vector2(0.6f, 2f);
             playerBox.offset = new Vector2(0f, 1f);
