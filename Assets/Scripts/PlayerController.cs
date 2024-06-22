@@ -6,12 +6,12 @@ using TMPro;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
-{   
+{
     // private 
-    private float speed;
-    private float jumpPower;
+
 
     // public
+    public float speed;
     public Animator animator;
     public BoxCollider2D playerBox;
 
@@ -24,18 +24,50 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Facing();
-        Jump();
+        // movement direction
+        float MoveDirection = Input.GetAxisRaw("Horizontal");
+        Facing(MoveDirection);
+
+        // movement
+        Movement(MoveDirection);
+
+        // jumping
+        float JumpDirection = Input.GetAxisRaw("Jump");
+        Jump(JumpDirection);
+
+
         Crouching();
     }
 
-    void Jump()
+    void Facing(float MoveDirection)
     {
-        jumpPower = Input.GetAxisRaw("Vertical");
+        animator.SetFloat("movedirection", Mathf.Abs(MoveDirection));
 
-        animator.SetFloat("JumpPower", Mathf.Abs(jumpPower));
+        Vector3 scale = transform.localScale;
 
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (MoveDirection < 0)
+        {
+            scale.x = -1f * Mathf.Abs(scale.x);
+            animator.SetBool("IsCrouching", false);
+        }
+        else if (MoveDirection > 0)
+        {
+            scale.x = Mathf.Abs(scale.x);
+            animator.SetBool("IsCrouching", false);
+        }
+        transform.localScale = scale;
+    }
+
+    void Movement(float MoveDirection)
+    {
+        Vector3 position = transform.position;
+        position.x = position.x + MoveDirection * speed * Time.deltaTime;
+        transform.position = position;
+    }
+
+    void Jump(float JumpDirection)
+    {
+        if (JumpDirection > 0)
         {
             animator.SetBool("IsJumping", true);
         }
@@ -43,28 +75,6 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("IsJumping", false);
         }
-        
-    }
-
-    void Facing()
-    {
-        speed = Input.GetAxisRaw("Horizontal");
-
-        animator.SetFloat("Speed", Mathf.Abs(speed));
-
-        Vector3 scale = transform.localScale;
-
-        if (speed < 0)
-        {
-            scale.x = -1f * Mathf.Abs(scale.x);
-            animator.SetBool("IsCrouching", false);
-        }
-        else if (speed > 0)
-        {
-            scale.x = Mathf.Abs(scale.x);
-            animator.SetBool("IsCrouching", false);
-        }
-        transform.localScale = scale;
     }
 
     void Crouching()

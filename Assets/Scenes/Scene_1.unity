@@ -961,6 +961,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6ca74339992b8e419e10c40ddf0e800, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 5
   animator: {fileID: 4621477507342051309}
   playerBox: {fileID: 4621477507342051308}
 --- !u!61 &4621477507342051308
