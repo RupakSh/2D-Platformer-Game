@@ -1,27 +1,28 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using TMPro;
 using UnityEngine;
+using UnityEngine.XR;
 
 public class PlayerController : MonoBehaviour
 {
-    // private 
-    private Rigidbody2D rb2d;
+    [SerializeField] private float speed;
+    [SerializeField] private float jumpPower;
 
-    // public
-    public float speed;
-    public float jumpPower;
-    public Animator animator;
-    public BoxCollider2D playerBox;
+    [SerializeField] private Rigidbody2D rb2d;   
+    [SerializeField] private Animator animator;
+    [SerializeField] private BoxCollider2D playerBox;    
 
-    public Transform groundCheck;
-    public LayerMask groundLayer;
+    private bool isGrounded;
 
     // Start is called before the first frame update
+    
     void Start()
     {
+        // not really necessary but good habbit
         playerBox = GetComponent<BoxCollider2D>();
         rb2d = GetComponent<Rigidbody2D>();
     }
@@ -29,21 +30,18 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // movement direction
+        // getting the vector for movement direction
         float MoveDirection = Input.GetAxisRaw("Horizontal");
+        
+        // the player obeys the above vector
         Facing(MoveDirection);
 
-        // movement
+        // movement of the player
         Movement(MoveDirection);
 
         // jumping
-        float jumpDirection = Input.GetAxisRaw("Jump");
-        if (Input.GetButtonDown("Jump") && IsGrounded())
-        {
-            animator.SetBool("IsJumping", true);
-            rb2d.velocity = new Vector2(rb2d.velocity.x, jumpPower);
-        }
-
+        float jumpDirection = Input.GetAxisRaw("Vertical");
+        Jump(jumpDirection);
 
         // crouching
         Crouching();
@@ -51,45 +49,73 @@ public class PlayerController : MonoBehaviour
 
     void Facing(float MoveDirection)
     {
+        // playing animation
         animator.SetFloat("movedirection", Mathf.Abs(MoveDirection));
 
+        // Making the player face both the directions
         Vector3 scale = transform.localScale;
 
         if (MoveDirection < 0)
         {
             scale.x = -1f * Mathf.Abs(scale.x);
-            animator.SetBool("IsCrouching", false);
+            animator.SetBool("iscrouching", false);
         }
         else if (MoveDirection > 0)
         {
             scale.x = Mathf.Abs(scale.x);
-            animator.SetBool("IsCrouching", false);
+            animator.SetBool("iscrouching", false);
         }
+
         transform.localScale = scale;
     }
 
     void Movement(float MoveDirection)
     {
-        Vector3 position = transform.position;
-        position.x = position.x + MoveDirection * speed * Time.deltaTime;
-        transform.position = position;
+        // Multiplying direction vector with speed for player movement
+        Vector3 newPosition = transform.position;
+        newPosition.x = newPosition.x + MoveDirection * speed * Time.deltaTime;
+        transform.position = newPosition;
     }
 
-    private bool IsGrounded()
+    void Jump(float jumpDirection)
     {
-        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+        animator.SetFloat("jump", jumpDirection);
+
+        if (jumpDirection > 0 && isGrounded)
+        {
+            animator.SetTrigger("okjump");
+            rb2d.AddForce(new Vector2(0f, jumpPower), ForceMode2D.Impulse);
+        }
     }
 
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.transform.tag == "Ground")
+        {
+            print("Yes the player is grounded");
+            isGrounded = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.transform.tag == "Ground")
+        {
+            print("No the player is not grounded");
+            isGrounded = false;
+        }
+    }
     void Crouching()
     {
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.LeftControl))
         {
-            animator.SetBool("IsCrouching", true);
+            animator.SetBool("iscrouching", true);
             playerBox.size = new Vector2(0.8f, 1.4f);
             playerBox.offset = new Vector2(0, 0.6f);
-        } 
+        }
         else
         {
+            
             playerBox.size = new Vector2(0.6f, 2f);
             playerBox.offset = new Vector2(0f, 1f);
         }
