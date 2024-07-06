@@ -12,7 +12,6 @@ public class LevelOverController : MonoBehaviour
             // level is over
             Debug.Log("Level Over!!");
             SceneManager.LoadScene("Scene_2");
-
         }
     }
 }

@@ -14,7 +14,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Rigidbody2D rb2d;   
     [SerializeField] private Animator animator;
-    [SerializeField] private BoxCollider2D playerBox;    
+    [SerializeField] private BoxCollider2D playerBox;  
+    [SerializeField] public ScoreKeeper scoreKeeper;
+    
 
     private bool isGrounded;
 
@@ -119,5 +121,11 @@ public class PlayerController : MonoBehaviour
             playerBox.size = new Vector2(0.6f, 2f);
             playerBox.offset = new Vector2(0f, 1f);
         }
+    }
+
+    public void pickupkey()
+    {
+        print("You collected a key!");
+        scoreKeeper.updateScore(10);
     }
 }
