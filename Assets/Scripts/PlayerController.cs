@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.transform.tag == "Ground")
         {
-            print("Yes the player is grounded");
+            //print("Yes the player is grounded");
             isGrounded = true;
         }
     }
@@ -103,7 +103,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.transform.tag == "Ground")
         {
-            print("No the player is not grounded");
+            //print("No the player is not grounded");
             isGrounded = false;
         }
     }
@@ -125,7 +125,7 @@ public class PlayerController : MonoBehaviour
 
     public void pickupkey()
     {
-        print("You collected a key!");
+        //print("You collected a key!");
         scoreKeeper.updateScore(10);
     }
 }
