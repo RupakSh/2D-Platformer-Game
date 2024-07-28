@@ -6,18 +6,28 @@ using System.Drawing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.XR;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float speed;
-    [SerializeField] private float jumpPower;
+    [SerializeField] float speed;
+    [SerializeField] float jumpPower;
+    public int health;
+    public int numberOfHearts;
+
+    public UnityEngine.UI.Image[] hearts;
+    public Sprite fullHeart;
+    public Sprite emptyHeart;
 
     [SerializeField] private Rigidbody2D rb2d;   
     [SerializeField] private Animator animator;
     [SerializeField] private BoxCollider2D playerBox;  
+
+    // scripts
     [SerializeField] public ScoreKeeper scoreKeeper;
     
-
+   
     private bool isGrounded;
 
     // Start is called before the first frame update
@@ -47,6 +57,12 @@ public class PlayerController : MonoBehaviour
 
         // crouching
         Crouching();
+
+        // hearts update
+        NumberOfHeartsUpdate();
+
+        // Check health
+        CheckHealth();
     }
 
     void Facing(float MoveDirection)
@@ -107,6 +123,14 @@ public class PlayerController : MonoBehaviour
             isGrounded = false;
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+       if(collision.transform.tag == "Enemy" && health != 0)
+        {
+            health -= 1;
+        }     
+    }
     void Crouching()
     {
         if (Input.GetKeyDown(KeyCode.LeftControl))
@@ -127,5 +151,35 @@ public class PlayerController : MonoBehaviour
     {
         //print("You collected a key!");
         scoreKeeper.updateScore(10);
+    }
+
+    public void NumberOfHeartsUpdate()
+    {
+        if (health < numberOfHearts)
+        { numberOfHearts = health; }
+
+        for (int i = 0; i < hearts.Length; i++)
+        {
+            if (i < health)
+            {
+                hearts[i].sprite = fullHeart;
+            }
+            else { hearts[i].sprite = emptyHeart; }
+
+            if (i < numberOfHearts)
+            {
+                hearts[i].enabled = true;
+            }
+            else { hearts[i].enabled = false; }
+        }
+    }
+
+    public void CheckHealth()
+    {
+        if(health <= 0)
+        {
+            UnityEngine.Debug.Log("Ellen died!!");
+            Destroy(gameObject);
+        }
     }
 }
