@@ -20,9 +20,8 @@ public class EnemyController : MonoBehaviour
         if (patrolPoint == 0)
         {
             transform.position = Vector2.MoveTowards(transform.position, patrolPointTransforms[0].position, enemyPatrolSpeed * Time.deltaTime);
-            if(Vector2.Distance(transform.position, patrolPointTransforms[0].position) < 0.5f)
+            if(Vector2.Distance(transform.position, patrolPointTransforms[0].position) < 0.1f)
             {
-                transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
                 patrolPoint = 1;
             }
         }
@@ -30,9 +29,8 @@ public class EnemyController : MonoBehaviour
         if (patrolPoint == 1)
         {
             transform.position = Vector2.MoveTowards(transform.position, patrolPointTransforms[1].position, enemyPatrolSpeed * Time.deltaTime);
-            if (Vector2.Distance(transform.position, patrolPointTransforms[1].position) < 0.5f)
+            if (Vector2.Distance(transform.position, patrolPointTransforms[1].position) < 0.1f)
             {
-                transform.localScale = new Vector3(-0.2f, 0.2f, 0.2f);
                 patrolPoint = 0;
             }
         }
