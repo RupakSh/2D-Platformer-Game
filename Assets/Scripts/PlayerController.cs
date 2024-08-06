@@ -16,7 +16,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private BoxCollider2D playerBox;  
     [SerializeField] public ScoreKeeper scoreKeeper;
-    
+
+    [SerializeField] public HealthManager healthManager;
 
     private bool isGrounded;
 
@@ -47,6 +48,9 @@ public class PlayerController : MonoBehaviour
 
         // crouching
         Crouching();
+
+        // checking health
+        CheckHealth();
     }
 
     void Facing(float MoveDirection)
@@ -127,5 +131,22 @@ public class PlayerController : MonoBehaviour
     {
         //print("You collected a key!");
         scoreKeeper.updateScore(10);
+    }
+
+    public void OnCollision2D(Collision2D collision)
+    {
+        if(collision.transform.tag == "Enemy")
+        {
+            print("You got hit by the enemy");
+            healthManager.health--;
+        }
+    }
+
+    public void CheckHealth()
+    {
+        if(healthManager.health == 0)
+        {
+            animator.SetBool("isDead", true);
+        }
     }
 }
