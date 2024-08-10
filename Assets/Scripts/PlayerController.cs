@@ -147,6 +147,8 @@ public class PlayerController : MonoBehaviour
         if(healthManager.health == 0)
         {
             animator.SetBool("isDead", true);
+            enabled = false;
+            
         }
     }
 }
