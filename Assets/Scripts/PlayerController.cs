@@ -6,6 +6,7 @@ using System.Drawing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.XR;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,8 +19,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public ScoreKeeper scoreKeeper;
 
     [SerializeField] public HealthManager healthManager;
+    [SerializeField] public GameObject endMenu;
 
     private bool isGrounded;
+
+    
 
     // Start is called before the first frame update
     
@@ -148,7 +152,7 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("isDead", true);
             enabled = false;
-            
+            endMenu.SetActive(true);
         }
     }
 }
