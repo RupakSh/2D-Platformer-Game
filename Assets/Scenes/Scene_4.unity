@@ -844,6 +844,51 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1721670973}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &326341963
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 326341965}
+  - component: {fileID: 326341964}
+  m_Layer: 0
+  m_Name: LevelManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &326341964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326341963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f177b00db5a1cd4ea485c11d645f174, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level1: Scene_1
+--- !u!4 &326341965
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326341963}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 225.9071, y: 133.52151, z: -0.85474473}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &373969352
 GameObject:
   m_ObjectHideFlags: 0
@@ -3518,6 +3563,7 @@ MonoBehaviour:
   playerBox: {fileID: 4621477507342051308}
   scoreKeeper: {fileID: 1479817994}
   healthManager: {fileID: 4621477507342051312}
+  endMenu: {fileID: 0}
 --- !u!61 &4621477507342051308
 BoxCollider2D:
   m_ObjectHideFlags: 0
