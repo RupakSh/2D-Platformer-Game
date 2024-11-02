@@ -98,6 +98,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // adjusting the collider to fit when the player sits down
+    void Crouching()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            animator.SetBool("iscrouching", true);
+            playerBox.size = new Vector2(0.8f, 1.4f);
+            playerBox.offset = new Vector2(0, 0.6f);
+        }
+        else
+        {
+
+            playerBox.size = new Vector2(0.6f, 2f);
+            playerBox.offset = new Vector2(0f, 1f);
+        }
+    }
+
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.transform.tag == "Ground")
@@ -113,21 +130,6 @@ public class PlayerController : MonoBehaviour
         {
             //print("No the player is not grounded");
             isGrounded = false;
-        }
-    }
-    void Crouching()
-    {
-        if (Input.GetKeyDown(KeyCode.LeftControl))
-        {
-            animator.SetBool("iscrouching", true);
-            playerBox.size = new Vector2(0.8f, 1.4f);
-            playerBox.offset = new Vector2(0, 0.6f);
-        }
-        else
-        {
-            
-            playerBox.size = new Vector2(0.6f, 2f);
-            playerBox.offset = new Vector2(0f, 1f);
         }
     }
 
@@ -152,6 +154,7 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("isDead", true);
             enabled = false;
+            this.enabled = false;
             endMenu.SetActive(true);
         }
     }

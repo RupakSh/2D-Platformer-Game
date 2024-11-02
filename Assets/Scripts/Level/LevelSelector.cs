@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class LevelSelector : MonoBehaviour
 {
     private Button button;
+
     public int level;
     public TextMeshProUGUI levelNumber;
     public string levelName;
@@ -36,13 +37,11 @@ public class LevelSelector : MonoBehaviour
     {
         // check level status
         LevelStatus levelStatus = LevelManager.Instance.GetLevelStatus(levelName);
-        // loading numbered scenes for buttons
-        //SceneManager.LoadScene("Scene_" + level.ToString());
-        //print("Level " + level.ToString() + " loaded.");
-
+        
         switch (levelStatus)
         {
             case LevelStatus.unlocked:
+                SoundManager.Instance.Play(Sounds.ButtonClick);
                 SceneManager.LoadScene(levelName);
                 break;
 
@@ -51,6 +50,7 @@ public class LevelSelector : MonoBehaviour
                 break;
 
             case LevelStatus.finished:
+                SoundManager.Instance.Play(Sounds.ButtonClick);
                 SceneManager.LoadScene(levelName);
                 break;
         }

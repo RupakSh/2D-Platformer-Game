@@ -47,8 +47,8 @@ public class EnemyController : MonoBehaviour
     {
         if (coll.gameObject.GetComponent<PlayerController>())
         {
-            Debug.Log("Ellen died!!");
-            healthManager.health--;
+           Debug.Log("Ellen died!!");
+           healthManager.health--;
         }
     }
 }

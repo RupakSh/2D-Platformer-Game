@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
+    // singleton class
     private static LevelManager instance;
     public static LevelManager Instance { get { return instance; } }
 
@@ -24,12 +25,26 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public void Start()
+    private void Start()
     {
         if (GetLevelStatus(level1) == LevelStatus.locked)
         {
             SetLevelStatus(level1, LevelStatus.unlocked);
         }
+    }
+
+    public void MarkCurrentLevelComplete()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        LevelManager.Instance.SetLevelStatus(scene.name, LevelStatus.unlocked);
+
+        // unlock the next level
+        int nextSceneIndex = scene.buildIndex + 1;
+        Scene nextScene = SceneManager.GetSceneByBuildIndex(nextSceneIndex);
+
+        // setting status of the next level to unlocked
+        SetLevelStatus(nextScene.name, LevelStatus.unlocked);
+        
     }
 
     public LevelStatus GetLevelStatus(string level)
