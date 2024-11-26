@@ -8,6 +8,7 @@ public class KeyCollector : MonoBehaviour
     {
         if(collision.gameObject.GetComponent<PlayerController>() != null)
         {
+            print("Someone collided with us");
             PlayerController playercontroller = collision.gameObject.GetComponent<PlayerController>();
             playercontroller.pickupkey();
             Destroy(gameObject);
