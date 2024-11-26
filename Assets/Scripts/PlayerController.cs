@@ -1,32 +1,20 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using TMPro;
 using UnityEngine;
-using UnityEngine.XR;
-using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private float jumpPower;
 
-    [SerializeField] private Rigidbody2D rb2d;   
+    [SerializeField] private Rigidbody2D rb2d;
     [SerializeField] private Animator animator;
-    [SerializeField] private BoxCollider2D playerBox;  
-    [SerializeField] public ScoreKeeper scoreKeeper;
+    [SerializeField] private BoxCollider2D playerBox;
 
     [SerializeField] public HealthManager healthManager;
     [SerializeField] public GameObject endMenu;
 
     private bool isGrounded;
-
     
-
     // Start is called before the first frame update
-    
     void Start()
     {
         // not really necessary but good habbit
@@ -85,16 +73,19 @@ public class PlayerController : MonoBehaviour
         Vector3 newPosition = transform.position;
         newPosition.x = newPosition.x + MoveDirection * speed * Time.deltaTime;
         transform.position = newPosition;
+        //rb2d.velocity.Set(MoveDirection * speed, rb2d.velocity.y);
+
     }
 
     void Jump(float jumpDirection)
     {
         animator.SetFloat("jump", jumpDirection);
-
         if (jumpDirection > 0 && isGrounded)
         {
             animator.SetTrigger("okjump");
+            
             rb2d.AddForce(new Vector2(0f, jumpPower), ForceMode2D.Impulse);
+            SoundManager.Instance.Play(Sounds.PlayerJump);
         }
     }
 
@@ -115,11 +106,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.transform.tag == "Ground")
         {
             //print("Yes the player is grounded");
+            //UnityEngine.Debug.Log("player grounded");
             isGrounded = true;
         }
     }
@@ -136,14 +128,15 @@ public class PlayerController : MonoBehaviour
     public void pickupkey()
     {
         //print("You collected a key!");
-        scoreKeeper.updateScore(10);
+        ScoreManager.Instance.updateScore(10);
+        SoundManager.Instance.Play(Sounds.CoinCollect);
     }
 
     public void OnCollision2D(Collision2D collision)
     {
         if(collision.transform.tag == "Enemy")
         {
-            print("You got hit by the enemy");
+            //print("You got hit by the enemy");
             healthManager.health--;
         }
     }
@@ -153,9 +146,10 @@ public class PlayerController : MonoBehaviour
         if(healthManager.health == 0)
         {
             animator.SetBool("isDead", true);
-            enabled = false;
+            //enabled = false;
             this.enabled = false;
             endMenu.SetActive(true);
+            SoundManager.Instance.Play(Sounds.PlayerDeath);
         }
     }
 }

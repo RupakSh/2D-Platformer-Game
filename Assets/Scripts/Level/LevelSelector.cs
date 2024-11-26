@@ -27,22 +27,17 @@ public class LevelSelector : MonoBehaviour
         levelNumber.text = level.ToString();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void OnClick()
     {
         // check level status
         LevelStatus levelStatus = LevelManager.Instance.GetLevelStatus(levelName);
-        
+
         switch (levelStatus)
         {
             case LevelStatus.unlocked:
                 SoundManager.Instance.Play(Sounds.ButtonClick);
                 SceneManager.LoadScene(levelName);
+                //LoadingScreen.Instance.LoadLoadingScreen(levelName);
                 break;
 
             case LevelStatus.locked:
@@ -52,7 +47,15 @@ public class LevelSelector : MonoBehaviour
             case LevelStatus.finished:
                 SoundManager.Instance.Play(Sounds.ButtonClick);
                 SceneManager.LoadScene(levelName);
+                //LoadingScreen.Instance.LoadLoadingScreen(levelName);
                 break;
-        }
+
+        }            
     }
+
+    public void closeButton()
+    {
+        SoundManager.Instance.Play(Sounds.ButtonClick);
+    }
+
 }
