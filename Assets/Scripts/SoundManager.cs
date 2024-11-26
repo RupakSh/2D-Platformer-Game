@@ -80,7 +80,6 @@ public enum Sounds
    PlayerDeath,
    PlayerRun,
    PlayerJump,
-   CoinCollect,
-   ClearLevel,
-   TheEnd
+   CoinCollect 
+       
 }

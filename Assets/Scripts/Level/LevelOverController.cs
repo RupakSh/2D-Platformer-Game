@@ -10,12 +10,9 @@ public class LevelOverController : MonoBehaviour
         if(collision.gameObject.GetComponent<PlayerController>() != null)
         {
             // level is over
-            print("Level Over!!");
-            
+            Debug.Log("Level Over!!");
             LevelManager.Instance.MarkCurrentLevelComplete();
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-            SoundManager.Instance.Play(Sounds.ClearLevel);
-
         }
     }
 }

@@ -11,14 +11,13 @@ public class EndMenu : MonoBehaviour
     public void RestartGame()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(1);
         SoundManager.Instance.Play(Sounds.ButtonClick);
-        
+        SceneManager.LoadScene(1);
     }
 
     public void QuitGame()
     {
-        Application.Quit();
         SoundManager.Instance.Play(Sounds.ButtonClick);
+        Application.Quit();
     }
 }

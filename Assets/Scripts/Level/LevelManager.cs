@@ -41,9 +41,6 @@ public class LevelManager : MonoBehaviour
         // unlock the next level
         int nextSceneIndex = scene.buildIndex + 1;
         Scene nextScene = SceneManager.GetSceneByBuildIndex(nextSceneIndex);
-        if (nextScene != null) {
-            Debug.Log("Congratulations!! Game complete");
-        }
 
         // setting status of the next level to unlocked
         SetLevelStatus(nextScene.name, LevelStatus.unlocked);
